@@ -1,10 +1,11 @@
 import { listenAndServe } from '../deps.ts';
+import { Config } from "../config.ts";
 import { handleHttpRequest } from "../transports/http.ts";
 
 
 async function bootstrapHttp() {
 
-  const httpListenAddress = ':48500';
+  const httpListenAddress = `:${Config.http.port}`;
 
   console.log(`http service listening on ${httpListenAddress}`)
   await listenAndServe(httpListenAddress, handleHttpRequest);
@@ -13,6 +14,9 @@ async function bootstrapHttp() {
 
 
 const services: Promise<unknown>[] = [];
-services.push(bootstrapHttp());
+
+if (Config.http.enabled) {
+  services.push(bootstrapHttp());
+}
 
 await Promise.all(services);
