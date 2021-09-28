@@ -1,6 +1,6 @@
-import { listenAndServe } from '../deps.ts';
-import { Config } from "../config.ts";
-import { handleHttpRequest } from "../transports/http.ts";
+import { listenAndServe } from './deps.ts';
+import { Config } from "./config.ts";
+import { handleHttpRequest } from "./transports/http.ts";
 
 
 async function bootstrapHttp() {
