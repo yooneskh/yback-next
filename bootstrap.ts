@@ -1,14 +1,17 @@
-import { listenAndServe } from './deps.ts';
-import { Config } from "./config.ts";
-import { handleHttpRequest } from "./transports/http.ts";
+import { Config }  from './config.ts';
+
+const timeStart = Date.now();
 
 
 async function bootstrapHttp() {
 
+  const { listenAndServe } = await import('./deps.ts');
+  const { handleHttpRequest } = await import('./transports/http.ts');
+
   const httpListenAddress = `:${Config.http.port}`;
 
-  console.log(`http service listening on ${httpListenAddress}`)
-  await listenAndServe(httpListenAddress, handleHttpRequest);
+  console.log(`http service listening on ${httpListenAddress} -- time took: ${Date.now() - timeStart} ms`);
+  return listenAndServe(httpListenAddress, handleHttpRequest);
 
 }
 
