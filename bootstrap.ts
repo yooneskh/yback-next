@@ -5,13 +5,13 @@ const timeStart = Date.now();
 
 async function bootstrapHttp() {
 
-  const { listenAndServe } = await import('./deps.ts');
-  const { handleHttpRequest } = await import('./transports/http.ts');
+  const { setupHttpTransport } = await import('./transports/http.ts');
 
   const httpListenAddress = `:${Config.http.port}`;
 
-  console.log(`http service listening on ${httpListenAddress} -- time took: ${Date.now() - timeStart} ms`);
-  return listenAndServe(httpListenAddress, handleHttpRequest);
+  setupHttpTransport(Config.http.port, () => {
+    console.log(`http service listening on ${httpListenAddress} -- time took: ${Date.now() - timeStart} ms`);
+  });
 
 }
 
