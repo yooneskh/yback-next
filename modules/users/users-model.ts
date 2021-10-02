@@ -14,3 +14,5 @@ UserMaker.setProperties({
     title: 'شماره تلفن'
   }
 });
+
+UserMaker.makeModel();

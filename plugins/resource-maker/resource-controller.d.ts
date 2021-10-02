@@ -7,6 +7,8 @@ export interface IResourceControllerPopulates {
 
 export interface IResourceControllerContext<T, TF> {
   filters?: any;
+  skip?: number;
+  limit?: number;
   sorts?: any;
   populates?: IResourceControllerPopulates;
   resourceId?: string;

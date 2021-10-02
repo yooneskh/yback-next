@@ -31,6 +31,8 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     if (context.filters) query.where(context.filters);
+    if (context.skip) query.skips(context.skip);
+    if (context.limit) query.limits(context.limit);
     if (context.sorts) query.where(context.sorts);
     if (context.populates) this.applyPopulates(context.populates, query);
 
