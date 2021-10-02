@@ -94,6 +94,7 @@ export class ResourceController<T, TF> {
 
   }
 
+
   public async create(context: IResourceControllerContext<T, TF>): Promise<TF> {
     if (!context.document) throw new Error(`${this.name} create info not given`);
 
