@@ -1,4 +1,4 @@
-import { augmentConfiguration } from "./deps.ts";
+import { augmentConfiguration } from './deps.ts';
 
 export const Config = {
   http: {
