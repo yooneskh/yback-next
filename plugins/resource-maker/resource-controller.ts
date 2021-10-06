@@ -31,10 +31,11 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     if (context.filters) query.where(context.filters);
-    if (context.skip) query.skips(context.skip);
-    if (context.limit) query.limits(context.limit);
+    if (context.selects) context.selects.forEach(it => query.projectIn(it));
     if (context.sorts) query.where(context.sorts);
     if (context.populates) this.applyPopulates(context.populates, query);
+    if (context.skip) query.skips(context.skip);
+    if (context.limit) query.limits(context.limit);
 
     return query.query();
 
@@ -45,8 +46,6 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     if (context.filters) query.where(context.filters);
-    if (context.sorts) query.where(context.sorts);
-    if (context.populates) this.applyPopulates(context.populates, query);
 
     return query.count();
 
@@ -58,6 +57,7 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     query.where({ _id: context.resourceId });
+    if (context.selects) context.selects.forEach(it => query.projectIn(it));
     if (context.populates) this.applyPopulates(context.populates, query);
 
     const document = await query.queryOne();
@@ -72,7 +72,7 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     if (context.filters) query.where(context.filters);
-    if (context.sorts) query.where(context.sorts);
+    if (context.selects) context.selects.forEach(it => query.projectIn(it));
     if (context.populates) this.applyPopulates(context.populates, query);
 
     const document = await query.queryOne();
@@ -87,6 +87,7 @@ export class ResourceController<T, TF> {
     const query = new Query<TF>(this.collectionName);
 
     if (context.filters) query.where(context.filters);
+    if (context.selects) context.selects.forEach(it => query.projectIn(it));
     if (context.sorts) query.where(context.sorts);
     if (context.populates) this.applyPopulates(context.populates, query);
 
@@ -102,7 +103,7 @@ export class ResourceController<T, TF> {
 
     // todo: document validation
 
-    for (const entry of Object.entries(context.document)) {
+    for (const entry of Object.entries(context.document)) { // todo: loop over properties
       query.put(entry[0], entry[1]);
     }
 
@@ -125,7 +126,7 @@ export class ResourceController<T, TF> {
 
     query.where({ _id: context.resourceId });
 
-    for (const entry of Object.entries(context.payload)) {
+    for (const entry of Object.entries(context.payload)) { // todo: loop over properties
       query.put(entry[0], entry[1]);
     }
 

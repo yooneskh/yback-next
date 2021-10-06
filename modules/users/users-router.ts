@@ -4,43 +4,23 @@ import './users-controller.ts';
 
 UserMaker.addActions([
   {
-    method: 'post',
-    path: '/0/:userId',
-    handler: (context) => {
-      context.response.send(context.params.userId + ' said hello raw!!');
-    }
+    template: 'list'
   },
   {
-    method: 'get',
-    path: '/1/:userId',
-    provider: (context) => {
-      return context.params.userId + ' said hello!';
-    }
+    template: 'count'
   },
   {
-    method: 'get',
-    path: '/2/:userId',
-    provider: [
-      (context) => {
-        return context.params.userId + ' said hello from 1!';
-      },
-      (context) => {
-        return context.params.userId + ' said hello from 2!';
-      }
-    ]
+    template: 'retrieve'
   },
   {
-    method: 'get',
-    path: '/3/:userId',
-    provider: {
-      'from db': (context) => {
-        return context.params.userId + ' said hello from db!';
-      },
-      'from redis': (context) => {
-        return context.params.userId + ' said hello from redis!';
-      }
-    }
-  }
+    template: 'create'
+  },
+  {
+    template: 'update'
+  },
+  {
+    template: 'delete'
+  },
 ]);
 
 

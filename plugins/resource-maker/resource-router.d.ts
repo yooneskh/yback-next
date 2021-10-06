@@ -16,8 +16,10 @@ export interface IResourceActionContext<T, TF> {
   response: HttpResponse;
   controller: ResourceController<T, TF>
   // deno-lint-ignore no-explicit-any
+  payload: any;
+  // deno-lint-ignore no-explicit-any
   params: Record<string, any>;
-  query: Record<string, unknown>;
+  query: Record<string, string>;
   headers: Record<string, string>;
 }
 

@@ -7,6 +7,7 @@ export interface IResourceControllerPopulates {
 
 export interface IResourceControllerContext<T, TF> {
   filters?: any;
+  selects?: string[];
   skip?: number;
   limit?: number;
   sorts?: any;

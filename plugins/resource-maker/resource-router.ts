@@ -61,6 +61,7 @@ export class ResourceRouter<T, TF> {
           request: rev.request,
           response: rev.response,
           controller: this.controller!,
+          payload: rev.body,
           params: rev.params,
           query: rev.query,
           headers: Object.fromEntries([...rev.request.headers.entries()])
