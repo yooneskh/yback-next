@@ -22,7 +22,7 @@ export class ResourceRouter<T, TF> {
     this.actions.push(action);
   }
 
-  public addActions(actions: IResourceAction<T, TF>[]) { // todo: handle label keyed object type
+  public addActions(actions: IResourceAction<T, TF>[]) {
     for (const action of actions) {
       this.addAction(action);
     }
