@@ -73,10 +73,19 @@ export class ResourceMaker<T, TF> {
     this.actions.push(action);
   }
 
-  public addActions(actions: IResourceAction<T, TF>[]) {
-    for (const action of actions) {
-      this.actions.push(action);
+  public addActions(actions: IResourceAction<T, TF>[] | Record<string, IResourceAction<T, TF>>) {
+
+    if (Array.isArray(actions)) {
+      for (const action of actions) {
+        this.actions.push(action);
+      }
     }
+    else {
+      for (const label in actions) {
+        this.actions.push({ label, ...actions[label] });
+      }
+    }
+
   }
 
   public getRouter() {

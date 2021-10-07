@@ -1,6 +1,7 @@
 import { ResourceMaker } from '../resource-maker/resource-maker.ts';
 import { makeFiltersFromQuery } from "./y-router-rest-templates-util.ts";
-import '../resource-maker/resource-router.d.ts';
+// deno-lint-ignore no-unused-vars
+import type { IResourceAction, IResourceActionContext } from '../resource-maker/resource-router.d.ts';
 
 
 declare module '../resource-maker/resource-router.d.ts' {

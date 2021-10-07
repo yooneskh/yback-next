@@ -3,6 +3,7 @@ import { ResourceController } from './resource-controller.ts';
 
 
 export interface IResourceAction<T, TF> {
+  label?: string;
   method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   path?: string;
   handler?: IResourceActionFunction<T, TF>;
