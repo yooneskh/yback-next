@@ -8,7 +8,7 @@ export interface IResourceBase {
 
 export interface IResourceProperty {
   type: 'string' | 'number' | 'boolean';
-  ref?: 'string';
+  ref?: string;
   required?: boolean;
   // meta
   title?: string;

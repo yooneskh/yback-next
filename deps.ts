@@ -12,10 +12,11 @@ export {
 export {
   connect,
   Query,
+  ObjectId,
   makeCollectionName,
   registerPopulateItem,
   transformToQueryPopulates
-} from 'https://deno.land/x/yongo@v1.1.1/mod.ts';
+} from 'https://deno.land/x/yongo@v1.1.3/mod.ts';
 
 export {
   plural

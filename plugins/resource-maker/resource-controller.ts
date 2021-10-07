@@ -1,6 +1,6 @@
 import { IResourceProperties } from './resource-model.d.ts';
 import { IResourceControllerContext, IResourceControllerPopulates } from './resource-controller.d.ts';
-import { makeCollectionName, transformToQueryPopulates, Query } from '../../deps.ts';
+import { makeCollectionName, transformToQueryPopulates, Query, ObjectId } from '../../deps.ts';
 
 
 export class ResourceController<T, TF> {
@@ -32,7 +32,7 @@ export class ResourceController<T, TF> {
 
     if (context.filters) query.where(context.filters);
     if (context.selects) context.selects.forEach(it => query.projectIn(it));
-    if (context.sorts) query.where(context.sorts);
+    if (context.sorts) query.sort(context.sorts);
     if (context.populates) this.applyPopulates(context.populates, query);
     if (context.skip) query.skips(context.skip);
     if (context.limit) query.limits(context.limit);
@@ -56,7 +56,13 @@ export class ResourceController<T, TF> {
 
     const query = new Query<TF>(this.collectionName);
 
-    query.where({ _id: context.resourceId });
+    try {
+      query.where({ _id: new ObjectId(context.resourceId) });
+    }
+    catch {
+      throw new Error(`invalid retrieve resourceId format ${this.name}@${context.resourceId}`);
+    }
+
     if (context.selects) context.selects.forEach(it => query.projectIn(it));
     if (context.populates) this.applyPopulates(context.populates, query);
 
@@ -76,7 +82,7 @@ export class ResourceController<T, TF> {
     if (context.populates) this.applyPopulates(context.populates, query);
 
     const document = await query.queryOne();
-    if (!document) throw new Error(`${this.name} where ${JSON.stringify(context.filters)} was not found.`);
+    if (!document) throw new Error(`${this.name} where ${JSON.stringify(context.filters ?? {})} was not found.`);
 
     return document;
 
@@ -88,7 +94,7 @@ export class ResourceController<T, TF> {
 
     if (context.filters) query.where(context.filters);
     if (context.selects) context.selects.forEach(it => query.projectIn(it));
-    if (context.sorts) query.where(context.sorts);
+    if (context.sorts) query.sort(context.sorts);
     if (context.populates) this.applyPopulates(context.populates, query);
 
     return query.queryOne();
@@ -124,7 +130,12 @@ export class ResourceController<T, TF> {
 
     // todo: document validation
 
-    query.where({ _id: context.resourceId });
+    try {
+      query.where({ _id: new ObjectId(context.resourceId) });
+    }
+    catch {
+      throw new Error(`invalid update resourceId format ${this.name}@${context.resourceId}`);
+    }
 
     for (const entry of Object.entries(context.payload)) { // todo: loop over properties
       query.put(entry[0], entry[1]);
@@ -167,7 +178,12 @@ export class ResourceController<T, TF> {
 
     const query = new Query<TF>(this.collectionName);
 
-    query.where({ _id: context.resourceId });
+    try {
+      query.where({ _id: new ObjectId(context.resourceId) });
+    }
+    catch {
+      throw new Error(`invalid delete resourceId format ${this.name}@${context.resourceId}`);
+    }
 
     const result = await query.delete();
     if (result === 0) throw new Error(`could not delete ${this.name}@${context.resourceId}`);

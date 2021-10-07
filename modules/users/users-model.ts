@@ -12,7 +12,13 @@ UserMaker.setProperties({
     type: 'string',
     required: true,
     title: 'شماره تلفن'
+  },
+  referrer: {
+    type: 'string',
+    ref: 'User',
+    title: 'معرف'
   }
 });
+
 
 UserMaker.makeModel();

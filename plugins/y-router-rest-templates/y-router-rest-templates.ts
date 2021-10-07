@@ -42,11 +42,10 @@ ResourceMaker.addGlobalPreware(context => {
 
   if (query.sorts) {
     context.sorts = Object.fromEntries(
-      query.sorts.split(',').map(part =>
-        part.split(':').map(item =>
-          [item[0], item[1] === '1' ? '1' : '-1']
-        )
-      )
+      query.sorts.split(',').map(part => {
+        const items = part.split(':');
+        return [items[0], items[1] === '1' ? 1 : -1];
+      })
     );
   }
 
