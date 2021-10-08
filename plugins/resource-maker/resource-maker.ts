@@ -1,12 +1,12 @@
 import { registerPopulateItem } from '../../deps.ts';
 import { Augmentor } from '../augment-looper/augment-looper.ts';
 import { ResourceController } from './resource-controller.ts';
-import { IResourceProperties } from './resource-model.d.ts';
+import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import { IResourceAction, IResourceWare } from './resource-router.d.ts';
 import { ResourceRouter } from './resource-router.ts';
 
 
-export class ResourceMaker<T, TF> {
+export class ResourceMaker<T, TF extends IResourceBase> {
 
   constructor(public name: string) {
 
