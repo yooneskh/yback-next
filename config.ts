@@ -10,6 +10,10 @@ export const Config = {
   http: {
     enabled: true,
     port: 48500
+  },
+  media: {
+    directory: 'media',
+    baseUrl: 'http://localhost:48500'
   }
 };
 

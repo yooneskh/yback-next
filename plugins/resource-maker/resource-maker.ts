@@ -13,13 +13,16 @@ export class ResourceMaker<T, TF extends IResourceBase> {
   }
 
 
-  public properties: IResourceProperties = {};
+  public properties?: IResourceProperties<T, TF>;
 
-  public setProperties(properties: IResourceProperties) {
+  public setProperties(properties: IResourceProperties<T, TF>) {
     this.properties = properties;
   }
 
   public makeModel() {
+    if (!this.properties) {
+      throw new Error(`${this.name} properties is not set`);
+    }
 
     for (const property in this.properties) {
       if (this.properties[property].ref) {
@@ -38,7 +41,11 @@ export class ResourceMaker<T, TF extends IResourceBase> {
 
   public getController(): ResourceController<T, TF> {
     if (this.controller) {
-      throw new Error(`${this.name} controller has been already made.`);
+      throw new Error(`${this.name} controller has been already made`);
+    }
+
+    if (!this.properties) {
+      throw new Error(`${this.name} properties are not set`)
     }
 
     this.controller = new ResourceController<T, TF>(this.name, this.properties);
@@ -54,15 +61,15 @@ export class ResourceMaker<T, TF extends IResourceBase> {
   // deno-lint-ignore no-explicit-any
   private static globalActionAugmentors: Augmentor< IResourceAction<any, any> >[] = [];
 
-  public static addGlobalPreware<T, TF>(ware: IResourceWare<T, TF>) {
+  public static addGlobalPreware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
     this.globalPrewares.push(ware);
   }
 
-  public static addGlobalPostware<T, TF>(ware: IResourceWare<T, TF>) {
+  public static addGlobalPostware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
     this.globalPostwares.push(ware);
   }
 
-  public static addGlobalActionAugmentor<T, TF>(augmentor: Augmentor< IResourceAction<T, TF> >) {
+  public static addGlobalActionAugmentor<T, TF extends IResourceBase>(augmentor: Augmentor< IResourceAction<T, TF> >) {
     this.globalActionAugmentors.push(augmentor);
   }
 

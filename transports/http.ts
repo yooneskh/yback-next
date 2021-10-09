@@ -13,6 +13,9 @@ app.get('/ping', () => 'pong');
 import { UserRouter } from '../modules/users/users-router.ts';
 app.use('/api/users', UserRouter);
 
+import { MediaRouter } from '../modules/media/media-router.ts';
+app.use('/api/media', MediaRouter);
+
 
 import { handleNHttpError } from '../plugins/error/handleable-error.ts';
 app.onError(handleNHttpError);

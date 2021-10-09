@@ -9,7 +9,7 @@ export class ResourceController<T, TF extends IResourceBase> {
   private collectionName: string;
 
 
-  constructor(public name: string, public properties: IResourceProperties) {
+  constructor(public name: string, public properties: IResourceProperties<T, TF>) {
     this.collectionName = makeCollectionName(name);
   }
 

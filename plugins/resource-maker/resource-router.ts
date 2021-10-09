@@ -1,10 +1,11 @@
 import { Router } from '../../deps.ts';
 import { AugmentLooper, Augmentor } from '../augment-looper/augment-looper.ts';
 import { ResourceController } from './resource-controller.ts';
+import { IResourceBase } from './resource-model.d.ts';
 import { IResourceAction, IResourceActionContext, IResourceWare } from './resource-router.d.ts';
 
 
-export class ResourceRouter<T, TF> {
+export class ResourceRouter<T, TF extends IResourceBase> {
 
   private actions: IResourceAction<T, TF>[] = [];
 

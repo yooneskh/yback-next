@@ -15,6 +15,6 @@ export interface IResourceProperty {
   titleble?: boolean;
 }
 
-export interface IResourceProperties {
-  [key: string]: IResourceProperty
+export type IResourceProperties<T, TF> = {
+  [key in keyof T]: IResourceProperty;
 }

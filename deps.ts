@@ -21,3 +21,15 @@ export {
 export {
   plural
 } from 'https://deno.land/x/deno_plural@1.0.1/mod.ts';
+
+export {
+  copy
+} from 'https://deno.land/std@0.110.0/io/util.ts';
+
+export {
+  readerFromStreamReader
+} from 'https://deno.land/std@0.110.0/io/mod.ts';
+
+export {
+  ensureFile
+} from 'https://deno.land/std@0.110.0/fs/mod.ts';

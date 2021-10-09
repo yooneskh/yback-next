@@ -1,8 +1,9 @@
 import { HttpResponse, RequestEvent } from '../../deps.ts';
 import { ResourceController } from './resource-controller.ts';
+import { IResourceBase } from './resource-model.d.ts';
 
 
-export interface IResourceAction<T, TF> {
+export interface IResourceAction<T, TF extends IResourceBase> {
   label?: string;
   method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   path?: string;
@@ -10,7 +11,7 @@ export interface IResourceAction<T, TF> {
 }
 
 
-export interface IResourceActionContext<T, TF> {
+export interface IResourceActionContext<T, TF extends IResourceBase> {
   action: IResourceAction<T, TF>;
   requestEvent: RequestEvent;
   request: Request;
@@ -26,8 +27,8 @@ export interface IResourceActionContext<T, TF> {
 
 
 // deno-lint-ignore no-explicit-any
-export type IResourceActionFunction<T, TF> = (context: IResourceActionContext<T, TF>) => any | Promise<any>
-export type IResourceActionMultiFunction<T, TF> = IResourceActionFunction<T, TF> | IResourceActionFunction<T, TF>[] | Record<string, IResourceActionFunction<T, TF>>
+export type IResourceActionFunction<T, TF extends IResourceBase> = (context: IResourceActionContext<T, TF>) => any | Promise<any>
+export type IResourceActionMultiFunction<T, TF extends IResourceBase> = IResourceActionFunction<T, TF> | IResourceActionFunction<T, TF>[] | Record<string, IResourceActionFunction<T, TF>>
 
 
-export type IResourceWare<T, TF> = (context: IResourceActionContext<T, TF>) => void | Promise<void>;
+export type IResourceWare<T, TF extends IResourceBase> = (context: IResourceActionContext<T, TF>) => void | Promise<void>;
