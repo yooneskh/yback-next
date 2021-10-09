@@ -62,6 +62,7 @@ export class ResourceRouter<T, TF extends IResourceBase> {
           request: rev.request,
           response: rev.response,
           controller: this.controller!,
+          version: rev.request.headers.get('version') ?? undefined,
           payload: rev.body,
           params: rev.params,
           query: rev.query,
@@ -72,7 +73,33 @@ export class ResourceRouter<T, TF extends IResourceBase> {
           await ware(context);
         }
 
-        await action.handler!(context);
+        if (context.version) {
+          if (typeof action.handler === 'function') {
+            if (context.version === '1') {
+              await action.handler(context);
+            }
+            else {
+              throw new Error(`this version "${context.version}" of the action is not implemented`);
+            }
+          }
+          else if (action.handler![context.version]) {
+            await action.handler![context.version](context);
+          }
+          else {
+            throw new Error(`this version "${context.version}" of the action is not implemented`);
+          }
+        }
+        else {
+          if (typeof action.handler! === 'function') {
+            await action.handler(context);
+          }
+          else if (action.handler!['1']) {
+            await action.handler!['1'](context);
+          }
+          else {
+            throw new Error('this action does not have a default version. please specify the version header.');
+          }
+        }
 
         await Promise.all(
           this.postwares.map(ware =>
