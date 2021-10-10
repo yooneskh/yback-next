@@ -14,6 +14,11 @@ export const Config = {
   media: {
     directory: 'media',
     baseUrl: 'http://localhost:48500'
+  },
+  auth: {
+    staticVerificationCode: '',
+    randomDigitsCount: 4,
+    tokenLifetime: 1000 * 60 * 60 * 24 * 30
   }
 };
 

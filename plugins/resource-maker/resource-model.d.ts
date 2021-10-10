@@ -1,6 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
 
 export interface IResourceBase {
-  // deno-lint-ignore no-explicit-any
   _id: any;
   createdAt: number;
   updatedAt: number;
@@ -10,11 +10,13 @@ export interface IResourceProperty {
   type: 'string' | 'number' | 'boolean';
   ref?: string;
   required?: boolean;
+  default?: any;
+  enum?: any[];
   // meta
   title?: string;
-  titleble?: boolean;
+  titleable?: boolean;
 }
 
 export type IResourceProperties<T, TF> = {
-  [key in keyof T]: IResourceProperty;
+  [key in keyof T] -?: IResourceProperty;
 }

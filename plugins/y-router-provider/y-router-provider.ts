@@ -1,6 +1,6 @@
 import { ResourceMaker } from '../resource-maker/resource-maker.ts';
 import { IResourceBase } from '../resource-maker/resource-model.d.ts';
-import { IResourceAction, IResourceActionFunction, IResourceActionMultiFunction, IResourceVersioned } from '../resource-maker/resource-router.d.ts';
+import { IResourceActionFunction, IResourceActionMultiFunction, IResourceVersioned } from '../resource-maker/resource-router.d.ts';
 
 
 declare module '../resource-maker/resource-router.d.ts' {
