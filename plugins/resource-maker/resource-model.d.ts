@@ -8,6 +8,7 @@ export interface IResourceBase {
 
 export interface IResourceProperty {
   type: 'string' | 'number' | 'boolean';
+  array?: boolean;
   ref?: string;
   required?: boolean;
   default?: any;

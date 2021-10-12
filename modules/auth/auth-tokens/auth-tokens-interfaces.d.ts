@@ -6,5 +6,6 @@ export interface IAuthTokenBase {
   token: string;
   valid: boolean;
   validUntil?: number;
+  usedAt?: number[];
   invalidatedAt?: number;
 } export interface IAuthToken extends IAuthTokenBase, IResourceBase {}

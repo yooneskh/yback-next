@@ -24,6 +24,11 @@ AuthTokenMaker.setProperties({
     type: 'number',
     title: 'زمان اعتبار'
   },
+  usedAt: {
+    type: 'number',
+    array: true,
+    title: 'زمان‌های استفاده'
+  },
   invalidatedAt: {
     type: 'number',
     title: 'زمان انقضا'
