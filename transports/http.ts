@@ -3,8 +3,8 @@ import { NHttp } from '../deps.ts';
 const app = new NHttp();
 
 
-import '../plugins/y-router-provider/y-router-provider.ts';
-import '../plugins/y-router-rest-templates/y-router-rest-templates.ts';
+import '../plugins/provider-router-addon/provider-router-addon.ts';
+import '../plugins/rest-templates-router-addon/rest-templates-router-addon.ts';
 
 
 app.get('/ping', () => 'pong');
