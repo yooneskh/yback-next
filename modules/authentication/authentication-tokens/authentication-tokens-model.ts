@@ -1,7 +1,7 @@
-import { AuthTokenMaker } from './auth-tokens-resource.ts';
+import { AuthenticationTokenMaker } from './authentication-tokens-resource.ts';
 
 
-AuthTokenMaker.setProperties({
+AuthenticationTokenMaker.setProperties({
   user: {
     type: 'string',
     ref: 'User',
@@ -36,4 +36,4 @@ AuthTokenMaker.setProperties({
 });
 
 
-AuthTokenMaker.makeModel();
+AuthenticationTokenMaker.makeModel();

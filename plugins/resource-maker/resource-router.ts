@@ -79,14 +79,14 @@ export class ResourceRouter<T, TF extends IResourceBase> {
               await action.handler(context);
             }
             else {
-              throw new Error(`this version "${context.version}" of the action is not implemented`);
+              throw new Error(`this version '${context.version}' of the action is not implemented`);
             }
           }
           else if (action.handler![context.version]) {
             await action.handler![context.version](context);
           }
           else {
-            throw new Error(`this version "${context.version}" of the action is not implemented`);
+            throw new Error(`this version '${context.version}' of the action is not implemented`);
           }
         }
         else {

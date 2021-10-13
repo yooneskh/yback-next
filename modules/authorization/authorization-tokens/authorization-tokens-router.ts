@@ -1,8 +1,8 @@
-import { AuthTokenMaker } from './auth-tokens-resource.ts';
-import './auth-tokens-controller.ts';
+import { AuthorizationTokenMaker } from './authorization-tokens-resource.ts';
+import './authorization-tokens-controller.ts';
 
 
-AuthTokenMaker.addActions({
+AuthorizationTokenMaker.addActions({
   'list': {
     template: 'list'
   },
@@ -24,4 +24,4 @@ AuthTokenMaker.addActions({
 });
 
 
-export const AuthTokenRouter = AuthTokenMaker.getRouter();
+export const AuthorizationTokenRouter = AuthorizationTokenMaker.getRouter();

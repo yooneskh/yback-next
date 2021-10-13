@@ -1,7 +1,7 @@
 import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts';
-import { IAuthProvider } from './auth-router.d.ts';
-import { AuthTokenController } from '../auth-tokens/auth-tokens-controller.ts';
-import { Config } from "../../../config.ts";
+import { IAuthProvider } from './authentication-router.d.ts';
+import { AuthenticationTokenController } from '../authentication-tokens/authentication-tokens-controller.ts';
+import { Config } from '../../../config.ts';
 
 
 const providers: IAuthProvider[] = [];
@@ -28,7 +28,7 @@ async function makeFreshToken() {
     crypto.getRandomValues(intArray);
     token = [...intArray].map(it => it.toString(16)).join('');
 
-    found = (await AuthTokenController.count({ filters: { token, valid: true } })) > 0;
+    found = (await AuthenticationTokenController.count({ filters: { token, valid: true } })) > 0;
 
   }
 
@@ -37,9 +37,9 @@ async function makeFreshToken() {
 }
 
 
-const AuthRouterMaker = new ResourceMaker('AuthRouter');
+const AuthenticationRouterMaker = new ResourceMaker('AuthRouter');
 
-AuthRouterMaker.addActions({
+AuthenticationRouterMaker.addActions({
   'login': {
     method: 'post',
     path: '/login',
@@ -82,7 +82,7 @@ AuthRouterMaker.addActions({
 
       const token = await makeFreshToken();
 
-      const authToken = await AuthTokenController.create({
+      const authenticationToken = await AuthenticationTokenController.create({
         document: {
           user,
           token,
@@ -91,10 +91,10 @@ AuthRouterMaker.addActions({
         }
       });
 
-      return authToken.token;
+      return authenticationToken.token;
 
     }
   }
 });
 
-export const AuthRouter = AuthRouterMaker.getRouter();
+export const AuthenticationRouter = AuthenticationRouterMaker.getRouter();

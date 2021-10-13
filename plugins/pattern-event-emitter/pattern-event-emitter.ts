@@ -1,6 +1,6 @@
 
 // deno-lint-ignore no-explicit-any
-export type PatternEventCallback = (event: string, ...args: any[]) => Promise<void>;
+export type PatternEventCallback = (event: string, ...args: any[]) => void | Promise<void>;
 
 
 export class PatternEventEmitter {

@@ -1,11 +1,11 @@
 import { IResourceBase } from '../../../plugins/resource-maker/resource-model.d.ts';
 
 
-export interface IAuthTokenBase {
+export interface IAuthenticationTokenBase {
   user: string;
   token: string;
   valid: boolean;
   validUntil?: number;
   usedAt?: number[];
   invalidatedAt?: number;
-} export interface IAuthToken extends IAuthTokenBase, IResourceBase {}
+} export interface IAuthenticationToken extends IAuthenticationTokenBase, IResourceBase {}

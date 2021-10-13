@@ -26,7 +26,7 @@ MediaMaker.addActions({
   'upload': {
     method: 'post',
     path: '/upload',
-    provider: async ({ requestEvent, controller }) => {
+    provider: async ({ requestEvent, controller, user }) => {
 
       const file = requestEvent.body.file as File;
       if (!file) throw new Error('file not provided');
@@ -43,7 +43,7 @@ MediaMaker.addActions({
 
       const mediaBase = await controller.create({
         document: {
-          owner: undefined,
+          owner: String(user?._id),
           name,
           extension,
           size,
