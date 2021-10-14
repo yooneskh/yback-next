@@ -13,10 +13,10 @@ UserMaker.setProperties({
     required: true,
     title: 'شماره تلفن'
   },
-  referrer: {
+  profile: {
     type: 'string',
-    ref: 'User',
-    title: 'معرف'
+    ref: 'Media',
+    title: 'تصویر پروفایل'
   }
 });
 

@@ -2,6 +2,8 @@ import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts
 import { IAuthProvider } from './authentication-router.d.ts';
 import { AuthenticationTokenController } from '../authentication-tokens/authentication-tokens-controller.ts';
 import { Config } from '../../../config.ts';
+import { MediaController } from '../../media/media-controller.ts';
+import { UserController } from '../../users/users-controller.ts';
 
 
 const providers: IAuthProvider[] = [];
@@ -94,7 +96,57 @@ AuthenticationRouterMaker.addActions({
       return authenticationToken.token;
 
     }
-  }
+  },
+  'identity': {
+    method: 'get',
+    path: '/identity',
+    requiresAuthentication: true,
+    provider: async ({ user, userPermissions, userRoles }) => {
+
+      if (user!.profile) {
+        (user!.profile as unknown) = await MediaController.find({ resourceId: user!.profile });
+      }
+
+      return {
+        ...user,
+        permissions: userPermissions,
+        roles: userRoles
+      };
+
+    }
+  },
+  'changeIdentity': {
+    method: 'patch',
+    path: '/identity',
+    requiresAuthentication: true,
+    provider: ({ user, payload }) => {
+      return UserController.update({
+        resourceId: user!._id,
+        payload
+      });
+    }
+  },
+  'logout': {
+    method: 'post',
+    path: '/logout',
+    requiresAuthentication: true,
+    provider: async ({ token }) => {
+
+      await AuthenticationTokenController.updateBy({
+        filters: {
+          token,
+          valid: true
+        },
+        payload: {
+          valid: false,
+          invalidatedAt: Date.now()
+        }
+      });
+
+      return true;
+
+    }
+  },
 });
 
 export const AuthenticationRouter = AuthenticationRouterMaker.getRouter();
