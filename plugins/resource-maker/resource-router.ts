@@ -56,7 +56,7 @@ export class ResourceRouter<T, TF extends IResourceBase> {
 
       router[action.method](action.path, async rev => {
 
-        const context: IResourceActionContext<T, TF> = {
+        const baseContext: Partial<IResourceActionContext<T, TF>> = {
           action,
           requestEvent: rev,
           request: rev.request,
@@ -68,6 +68,8 @@ export class ResourceRouter<T, TF extends IResourceBase> {
           query: rev.query,
           headers: Object.fromEntries([...rev.request.headers.entries()])
         };
+
+        const context: IResourceActionContext<T, TF> = baseContext as unknown as IResourceActionContext<T, TF>;
 
         for (const ware of this.prewares) {
           await ware(context);

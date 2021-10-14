@@ -1,5 +1,6 @@
 import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts';
-import '../../../plugins/resource-maker/resource-router.d.ts';
+import { IResourceActionMultiFunction } from '../../../plugins/resource-maker/resource-router.d.ts';
+import { executeActionMultiFunction } from "../../../plugins/resource-maker/resource-util.ts";
 import { IAuthorizationRole } from '../authorization-roles/authorization-roles-interfaces.d.ts';
 import { getAuthorizationInfoForUser, matchPermission } from "./authorization-helper.ts";
 
@@ -10,6 +11,7 @@ declare module '../../../plugins/resource-maker/resource-router.d.ts' {
     permission?: string;
     permissions?: string[];
     anyPermissions?: string[];
+    permissionValidator?: IResourceActionMultiFunction<T, TF>
   }
 
   interface IResourceActionContext<T, TF> {
@@ -26,7 +28,7 @@ declare module '../../../plugins/resource-maker/resource-router.d.ts' {
 ResourceMaker.addGlobalPreware(async context => {
 
   const { action, user } = context;
-  const { permission, permissions, anyPermissions } = action;
+  const { permission, permissions, anyPermissions, permissionValidator } = action;
 
 
   context.hasPermission = (p: string) => {
@@ -73,6 +75,15 @@ ResourceMaker.addGlobalPreware(async context => {
   if (anyPermissions) {
     if (!user) throw new Error('unauthorized access');
     if (!context.hasAnyPermission(anyPermissions)) throw new Error('unauthorized access');
+  }
+
+  if (permissionValidator) {
+    try {
+      await executeActionMultiFunction(permissionValidator, context);
+    }
+    catch (error) {
+      throw new Error(`unauthorized access${error.message ? `: ${error.message}` : ''}`);
+    }
   }
 
 });
