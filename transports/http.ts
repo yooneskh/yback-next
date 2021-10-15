@@ -5,6 +5,7 @@ const app = new NHttp();
 
 import '../plugins/provider-router-addon/provider-router-addon.ts';
 import '../plugins/rest-templates-router-addon/rest-templates-router-addon.ts';
+import '../plugins/validators-router-addon/validators-router-addon.ts';
 
 
 app.get('/ping', () => 'pong');
