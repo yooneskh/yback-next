@@ -40,7 +40,7 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const documents = await query.query();
 
-    EventEmitter.emit(`Resource.${this.name}.Listed`, documents.map(it => it._id), documents);
+    EventEmitter.emit(`Resource.${this.name}.Listed`, documents.map(it => String(it._id)), documents);
     return documents;
 
   }
@@ -76,7 +76,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const document = await query.queryOne();
     if (!document) throw new Error(`${this.name}@${context.resourceId} was not found.`);
 
-    EventEmitter.emit(`Resource.${this.name}.Retrieved`, document._id, document);
+    EventEmitter.emit(`Resource.${this.name}.Retrieved`, String(document._id), document);
     return document;
 
   }
@@ -92,7 +92,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const document = await query.queryOne();
     if (!document) throw new Error(`${this.name} where ${JSON.stringify(context.filters ?? {})} was not found.`);
 
-    EventEmitter.emit(`Resource.${this.name}.RetrievedBy`, document._id, document);
+    EventEmitter.emit(`Resource.${this.name}.RetrievedBy`, String(document._id), document);
     return document;
 
   }
@@ -114,7 +114,7 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const document = await query.queryOne();
 
-    EventEmitter.emit(`Resource.${this.name}.Found`, document?._id, document);
+    EventEmitter.emit(`Resource.${this.name}.Found`, String(document?._id), document);
     return document;
 
   }
@@ -130,7 +130,7 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const document = await query.queryOne();
 
-    EventEmitter.emit(`Resource.${this.name}.FoundBy`, document?._id, document);
+    EventEmitter.emit(`Resource.${this.name}.FoundBy`, String(document?._id), document);
     return document;
 
   }
@@ -152,7 +152,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const document = await query.insert();
     if (!document) throw new Error(`could not create ${this.name}`);
 
-    EventEmitter.emit(`Resource.${this.name}.Created`, document._id, document);
+    EventEmitter.emit(`Resource.${this.name}.Created`, String(document._id), document);
     return document;
 
   }
@@ -187,7 +187,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const newDocument = await query.queryOne();
     if (!newDocument) throw new Error(`there was a problem updating ${this.name}@${context.resourceId}`);
 
-    EventEmitter.emit(`Resource.${this.name}.Updated`, newDocument._id, newDocument, oldDocument._id, oldDocument);
+    EventEmitter.emit(`Resource.${this.name}.Updated`, String(newDocument._id), newDocument, String(oldDocument._id), oldDocument);
     return newDocument;
 
   }
@@ -217,7 +217,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     changedDocumentsQuery.where({ _id: { $in: oldDocuments.map(it => it._id) } });
     const changedDocuments = await changedDocumentsQuery.query();
 
-    EventEmitter.emit(`Resource.${this.name}.UpdatedBy`, changedDocuments.map(it => it._id), changedDocuments, oldDocuments.map(it => it._id), oldDocuments);
+    EventEmitter.emit(`Resource.${this.name}.UpdatedBy`, changedDocuments.map(it => String(it._id)), changedDocuments, oldDocuments.map(it => String(it._id)), oldDocuments);
     return changedDocuments;
 
   }
@@ -240,7 +240,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const result = await query.delete();
     if (result === 0) throw new Error(`could not delete ${this.name}@${context.resourceId}`);
 
-    EventEmitter.emit(`Resource.${this.name}.Deleted`, document._id, document);
+    EventEmitter.emit(`Resource.${this.name}.Deleted`, String(document._id), document);
     return document;
 
   }
@@ -257,7 +257,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     const result = await query.deleteMany();
     if (result === 0) throw new Error(`could not delete ${this.name} where ${JSON.stringify(context.filters)}`);
 
-    EventEmitter.emit(`Resource.${this.name}.DeletedBy`, documents.map(it => it._id), documents);
+    EventEmitter.emit(`Resource.${this.name}.DeletedBy`, documents.map(it => String(it._id)), documents);
     return documents;
 
   }

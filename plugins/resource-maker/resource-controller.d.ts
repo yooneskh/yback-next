@@ -1,5 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 
+import { ObjectId } from '../../deps.ts';
+
 
 export interface IResourceControllerPopulates {
   [keyPath: string]: string
@@ -12,7 +14,7 @@ export interface IResourceControllerContext<T, TF> {
   limit?: number;
   sorts?: any;
   populates?: IResourceControllerPopulates;
-  resourceId?: string;
+  resourceId?: string | typeof ObjectId;
   document?: T;
   payload?: Partial<T>;
 }

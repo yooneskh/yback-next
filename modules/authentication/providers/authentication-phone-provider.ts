@@ -44,7 +44,7 @@ registerProvider({
 
     return {
       needsVerification: true,
-      verificationToken: verificationToken._id
+      verificationToken: String(verificationToken._id)
     };
 
   },
@@ -79,7 +79,7 @@ registerProvider({
 
     return {
       needsVerification: true,
-      verificationToken: verificationToken._id
+      verificationToken: String(verificationToken._id)
     };
 
   },

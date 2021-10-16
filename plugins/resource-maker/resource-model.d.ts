@@ -1,7 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 
+import { ObjectId } from '../../deps.ts';
+
+
 export interface IResourceBase {
-  _id: any;
+  _id: typeof ObjectId;
   createdAt: number;
   updatedAt: number;
 }
