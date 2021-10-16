@@ -38,7 +38,7 @@ registerProvider({
       document: {
         user: String(user._id),
         channel: 'sms',
-        code: Config.auth.staticVerificationCode || makeRandomDigits(Config.auth.randomDigitsCount)
+        code: Config.authentication.staticVerificationCode || makeRandomDigits(Config.authentication.randomDigitsCount)
       }
     });
 
@@ -73,7 +73,7 @@ registerProvider({
       document: {
         registerToken: String(registerToken._id),
         channel: 'sms',
-        code: Config.auth.staticVerificationCode || makeRandomDigits(Config.auth.randomDigitsCount)
+        code: Config.authentication.staticVerificationCode || makeRandomDigits(Config.authentication.randomDigitsCount)
       }
     });
 

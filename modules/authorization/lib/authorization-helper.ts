@@ -1,5 +1,6 @@
 import type { IAuthorizationRole } from '../authorization-roles/authorization-roles-interfaces.d.ts';
 import { AuthorizationTokenController } from '../authorization-tokens/authorization-tokens-controller.ts';
+import { Config } from '../../../config.ts';
 
 
 export interface IUserAuthorizationInfo {
@@ -20,7 +21,23 @@ export async function getAuthorizationInfoForUser(userId: string): Promise<IUser
   });
 
   if (!authorizationToken) {
-    return { permissions: [], roles: [] };
+    if (!Config.authorization.defaultPermissions || Config.authorization.defaultPermissions.length === 0) {
+      return { permissions: [], roles: [] };
+    }
+
+    await AuthorizationTokenController.create({
+      document: {
+        user: userId,
+        permissions: Config.authorization.defaultPermissions,
+        roles: []
+      }
+    });
+
+    return {
+      permissions: Config.authorization.defaultPermissions,
+      roles: []
+    };
+
   }
 
   const permissions: string[] = [

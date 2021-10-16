@@ -89,7 +89,7 @@ AuthenticationRouterMaker.addActions({
           user,
           token,
           valid: true,
-          validUntil: Config.auth.tokenLifetime ? Date.now() + Config.auth.tokenLifetime : undefined
+          validUntil: Config.authentication.tokenLifetime ? Date.now() + Config.authentication.tokenLifetime : undefined
         }
       });
 

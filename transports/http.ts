@@ -33,7 +33,6 @@ import { AuthorizationRoleRouter } from '../modules/authorization/authorization-
 app.use('/api/authorization-tokens', AuthorizationTokenRouter);
 app.use('/api/authorization-roles', AuthorizationRoleRouter);
 
-import '../modules/authorization/authorization-tokens/authorization-tokens-event-listener.ts';
 import '../modules/authorization/lib/authorization-router-addon.ts';
 
 
