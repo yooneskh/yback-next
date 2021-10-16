@@ -1,8 +1,8 @@
 import type { IResourceBase } from '../../../plugins/resource-maker/resource-model.d.ts';
 
 
-export interface IAuthorizationTokenBase {
+export interface IAuthorizationTokenBase<RT = string> {
   user: string;
   permissions: string[];
-  roles: string[];
-} export interface IAuthorizationToken extends IAuthorizationTokenBase, IResourceBase {}
+  roles: RT[];
+} export interface IAuthorizationToken<RT = string> extends IAuthorizationTokenBase<RT>, IResourceBase {}

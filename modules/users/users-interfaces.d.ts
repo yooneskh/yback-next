@@ -1,8 +1,8 @@
 import type { IResourceBase } from '../../plugins/resource-maker/resource-model.d.ts';
 
 
-export interface IUserBase {
+export interface IUserBase<PT = string> {
   name: string;
   phoneNumber: string;
-  profile?: string;
-} export interface IUser extends IUserBase, IResourceBase {}
+  profile?: PT;
+} export interface IUser<PT = string> extends IUserBase<PT>, IResourceBase {}

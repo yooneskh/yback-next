@@ -148,6 +148,7 @@ export class ResourceController<T, TF extends IResourceBase> {
     }
 
     query.put('createdAt', Date.now());
+    query.put('updatedAt', 0);
 
     const document = await query.insert();
     if (!document) throw new Error(`could not create ${this.name}`);
