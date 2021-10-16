@@ -4,22 +4,28 @@ import './register-tokens-controller.ts';
 
 RegisterTokenMaker.addActions({
   'list': {
-    template: 'list'
+    template: 'list',
+    permission: 'admin.register-token.list'
   },
   'count': {
-    template: 'count'
+    template: 'count',
+    permission: 'admin.register-token.count'
   },
   'retrieve': {
-    template: 'retrieve'
+    template: 'retrieve',
+    permission: 'admin.register-token.retrieve'
   },
   'create': {
-    template: 'create'
+    template: 'create',
+    permission: 'admin.register-token.create'
   },
   'update': {
-    template: 'update'
+    template: 'update',
+    permission: 'admin.register-token.update'
   },
   'delete': {
-    template: 'delete'
+    template: 'delete',
+    permission: 'admin.register-token.delete'
   }
 });
 

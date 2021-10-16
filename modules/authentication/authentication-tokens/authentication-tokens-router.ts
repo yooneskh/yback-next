@@ -4,22 +4,28 @@ import './authentication-tokens-controller.ts';
 
 AuthenticationTokenMaker.addActions({
   'list': {
-    template: 'list'
+    template: 'list',
+    permission: 'admin.authentication-token.list'
   },
   'count': {
-    template: 'count'
+    template: 'count',
+    permission: 'admin.authentication-token.count'
   },
   'retrieve': {
-    template: 'retrieve'
+    template: 'retrieve',
+    permission: 'admin.authentication-token.retrieve'
   },
   'create': {
-    template: 'create'
+    template: 'create',
+    permission: 'admin.authentication-token.create'
   },
   'update': {
-    template: 'update'
+    template: 'update',
+    permission: 'admin.authentication-token.update'
   },
   'delete': {
-    template: 'delete'
+    template: 'delete',
+    permission: 'admin.authentication-token.delete'
   }
 });
 

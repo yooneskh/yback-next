@@ -4,22 +4,28 @@ import './users-controller.ts';
 
 UserMaker.addActions({
   'list': {
-    template: 'list'
+    template: 'list',
+    permission: 'admin.user.list'
   },
   'count': {
-    template: 'count'
+    template: 'count',
+    permission: 'admin.user.count'
   },
   'retrieve': {
-    template: 'retrieve'
+    template: 'retrieve',
+    permission: 'admin.user.retrieve'
   },
   'create': {
-    template: 'create'
+    template: 'create',
+    permission: 'admin.user.create'
   },
   'update': {
-    template: 'update'
+    template: 'update',
+    permission: 'admin.user.update'
   },
   'delete': {
-    template: 'delete'
+    template: 'delete',
+    permission: 'admin.user.delete'
   }
 });
 
