@@ -6,7 +6,7 @@ UserMaker.setProperties({
     type: 'string',
     required: true,
     title: 'نام',
-    titleble: true
+    titleable: true
   },
   phoneNumber: {
     type: 'string',

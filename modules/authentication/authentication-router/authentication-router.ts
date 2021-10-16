@@ -1,5 +1,5 @@
 import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts';
-import { IAuthProvider } from './authentication-router.d.ts';
+import type { IAuthProvider } from './authentication-router.d.ts';
 import { AuthenticationTokenController } from '../authentication-tokens/authentication-tokens-controller.ts';
 import { Config } from '../../../config.ts';
 import { MediaController } from '../../media/media-controller.ts';

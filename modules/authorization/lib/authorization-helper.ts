@@ -1,4 +1,4 @@
-import { IAuthorizationRole } from '../authorization-roles/authorization-roles-interfaces.d.ts';
+import type { IAuthorizationRole } from '../authorization-roles/authorization-roles-interfaces.d.ts';
 import { AuthorizationTokenController } from '../authorization-tokens/authorization-tokens-controller.ts';
 
 

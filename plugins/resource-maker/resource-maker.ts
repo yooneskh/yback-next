@@ -1,8 +1,8 @@
 import { registerPopulateItem } from '../../deps.ts';
 import { Augmentor } from '../augment-looper/augment-looper.ts';
 import { ResourceController } from './resource-controller.ts';
-import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
-import { IResourceAction, IResourceWare } from './resource-router.d.ts';
+import type { IResourceBase, IResourceProperties } from './resource-model.d.ts';
+import type { IResourceAction, IResourceWare } from './resource-router.d.ts';
 import { ResourceRouter } from './resource-router.ts';
 
 
@@ -62,15 +62,18 @@ export class ResourceMaker<T, TF extends IResourceBase> {
   private static globalActionAugmentors: Augmentor< IResourceAction<any, any> >[] = [];
 
   public static addGlobalPreware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
-    this.globalPrewares.push(ware);
+    // deno-lint-ignore no-explicit-any
+    this.globalPrewares.push(ware as unknown as any);
   }
 
   public static addGlobalPostware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
-    this.globalPostwares.push(ware);
+    // deno-lint-ignore no-explicit-any
+    this.globalPostwares.push(ware as unknown as any);
   }
 
   public static addGlobalActionAugmentor<T, TF extends IResourceBase>(augmentor: Augmentor< IResourceAction<T, TF> >) {
-    this.globalActionAugmentors.push(augmentor);
+    // deno-lint-ignore no-explicit-any
+    this.globalActionAugmentors.push(augmentor as unknown as any);
   }
 
   private router?: ResourceRouter<T, TF>;

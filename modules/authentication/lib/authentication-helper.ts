@@ -1,5 +1,5 @@
 import { UserController } from '../../users/users-controller.ts';
-import { IUser } from '../../users/users-interfaces.d.ts';
+import type { IUser } from '../../users/users-interfaces.d.ts';
 import { AuthenticationTokenController } from '../authentication-tokens/authentication-tokens-controller.ts';
 
 

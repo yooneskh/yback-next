@@ -1,5 +1,5 @@
-import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
-import { IResourceControllerContext, IResourceControllerPopulates } from './resource-controller.d.ts';
+import type { IResourceBase, IResourceProperties } from './resource-model.d.ts';
+import type { IResourceControllerContext, IResourceControllerPopulates } from './resource-controller.d.ts';
 import { makeCollectionName, transformToQueryPopulates, Query, ObjectId } from '../../deps.ts';
 import { EventEmitter } from '../../services/event-emitter.ts';
 

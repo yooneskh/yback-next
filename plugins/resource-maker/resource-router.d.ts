@@ -1,6 +1,6 @@
 import { HttpResponse, RequestEvent } from '../../deps.ts';
 import { ResourceController } from './resource-controller.ts';
-import { IResourceBase } from './resource-model.d.ts';
+import type { IResourceBase } from './resource-model.d.ts';
 
 
 export interface IResourceAction<T, TF extends IResourceBase> {

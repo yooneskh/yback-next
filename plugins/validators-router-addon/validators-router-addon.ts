@@ -1,5 +1,5 @@
 import { ResourceMaker } from '../../plugins/resource-maker/resource-maker.ts';
-import { IResourceActionMultiFunction } from '../../plugins/resource-maker/resource-router.d.ts';
+import type { IResourceActionMultiFunction } from '../../plugins/resource-maker/resource-router.d.ts';
 import { executeActionMultiFunction } from "../resource-maker/resource-util.ts";
 
 

@@ -11,13 +11,13 @@ MediaMaker.setProperties({
     type: 'string',
     required: true,
     title: 'نام',
-    titleble: true
+    titleable: true
   },
   extension: {
     type: 'string',
     required: true,
     title: 'فرمت',
-    titleble: true
+    titleable: true
   },
   size: {
     type: 'number',

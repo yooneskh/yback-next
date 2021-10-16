@@ -1,6 +1,6 @@
 import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts';
-import { IUser } from '../../users/users-interfaces.d.ts';
-import '../../../plugins/resource-maker/resource-router.d.ts';
+import type { IUser } from '../../users/users-interfaces.d.ts';
+import type {} from '../../../plugins/resource-maker/resource-router.d.ts';
 import { getUserByToken } from './authentication-helper.ts';
 
 
