@@ -16,11 +16,16 @@ export interface IResourceProperty {
   required?: boolean;
   default?: any;
   enum?: any[];
+  seriesIdentifier?: string;
+  seriesLoopTo?: string;
   seriesBase?: Record<string, unknown>;
   seriesSchema?: IResourceProperties<any, any>;
   // meta
   title?: string;
   titleable?: boolean;
+  items?: string[] | { value: string, text: string }[];
+  itemValue?: string;
+  itemText?: string;
 }
 
 export type IResourceProperties<T, TF> = {
