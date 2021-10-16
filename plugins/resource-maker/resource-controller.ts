@@ -143,8 +143,10 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     // todo: document validation
 
-    for (const entry of Object.entries(context.document)) { // todo: loop over properties
-      query.put(entry[0], entry[1]);
+    for (const key in this.properties) {
+      if (key in context.document) {
+        query.put(key, context.document[key]);
+      }
     }
 
     query.put('createdAt', Date.now());
@@ -176,8 +178,10 @@ export class ResourceController<T, TF extends IResourceBase> {
     const oldDocument = await query.queryOne();
     if (!oldDocument) throw new Error(`${this.name}@${context.resourceId} was not found for update`);
 
-    for (const entry of Object.entries(context.payload)) { // todo: loop over properties
-      query.put(entry[0], entry[1]);
+    for (const key in this.properties) {
+      if (key in context.payload) {
+        query.put(key, context.payload[key]);
+      }
     }
 
     query.put('updatedAt', Date.now());
@@ -205,8 +209,10 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const oldDocuments = await query.query();
 
-    for (const entry of Object.entries(context.payload)) { // todo: loop over properties
-      query.put(entry[0], entry[1]);
+    for (const key in this.properties) {
+      if (key in context.payload) {
+        query.put(key, context.payload[key]);
+      }
     }
 
     query.put('updatedAt', Date.now());

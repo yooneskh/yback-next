@@ -10,12 +10,14 @@ export interface IResourceBase {
 }
 
 export interface IResourceProperty {
-  type: 'string' | 'number' | 'boolean';
+  type: 'string' | 'number' | 'boolean' | 'series';
   array?: boolean;
   ref?: string;
   required?: boolean;
   default?: any;
   enum?: any[];
+  seriesBase?: Record<string, unknown>;
+  seriesSchema?: IResourceProperties<any, any>;
   // meta
   title?: string;
   titleable?: boolean;
