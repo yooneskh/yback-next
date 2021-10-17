@@ -51,6 +51,10 @@ import { MediaRouter } from '../modules/media/media-router.ts';
 app.use('/api/media', MediaRouter);
 
 
+import { FactorRouter } from '../modules/payment/factors/factors-router.ts';
+app.use('/api/factors', FactorRouter);
+
+
 /* extra */
 
 import { handleNHttpError } from '../plugins/error/handleable-error.ts';

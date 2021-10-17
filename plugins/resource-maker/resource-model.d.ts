@@ -10,17 +10,21 @@ export interface IResourceBase {
 }
 
 export interface IResourceProperty {
-  type: 'string' | 'number' | 'boolean' | 'series';
+  type: 'string' | 'number' | 'boolean' | 'series' | 'object';
   array?: boolean;
   ref?: string;
   required?: boolean;
   default?: any;
   enum?: any[];
+  /* series */
   seriesIdentifier?: string;
   seriesLoopTo?: string;
   seriesBase?: Record<string, unknown>;
   seriesSchema?: IResourceProperties<any, any>;
-  // meta
+  /* extra */
+  hideInTable?: boolean;
+  hidden?: boolean;
+  /* meta */
   title?: string;
   titleable?: boolean;
   items?: string[] | { value: string, text: string }[];
