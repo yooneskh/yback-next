@@ -68,12 +68,13 @@ ResourceMaker.addGlobalPreware(context => {
 });
 
 
-ResourceMaker.addGlobalActionAugmentor(({ template }) => {
+ResourceMaker.addGlobalActionAugmentor(({ template, resourceName }) => {
   if (!template) return;
 
   switch (template) {
     case 'list': return {
       template: undefined,
+      signal: `Route.${resourceName}.List`,
       method: 'get',
       path: '/',
       provider: ({ controller, query, filters, selects, sorts, populates, skip, limit }) => {
@@ -98,6 +99,7 @@ ResourceMaker.addGlobalActionAugmentor(({ template }) => {
     };
     case 'count': return {
       template: undefined,
+      signal: `Route.${resourceName}.Count`,
       method: 'get',
       path: '/count',
       provider: ({ controller, filters }) => {
@@ -108,6 +110,7 @@ ResourceMaker.addGlobalActionAugmentor(({ template }) => {
     };
     case 'retrieve': return {
       template: undefined,
+      signal: `Route.${resourceName}.Retrieve`,
       method: 'get',
       path: '/:resourceId',
       provider: ({ controller, resourceId, selects, populates }) => {
@@ -120,6 +123,7 @@ ResourceMaker.addGlobalActionAugmentor(({ template }) => {
     };
     case 'create': return {
       template: undefined,
+      signal: `Route.${resourceName}.Create`,
       method: 'post',
       path: '/',
       provider: ({ controller, payload }) => {
@@ -130,6 +134,7 @@ ResourceMaker.addGlobalActionAugmentor(({ template }) => {
     };
     case 'update': return {
       template: undefined,
+      signal: `Route.${resourceName}.Update`,
       method: 'patch',
       path: '/:resourceId',
       provider: ({ controller, resourceId, payload }) => {
@@ -141,6 +146,7 @@ ResourceMaker.addGlobalActionAugmentor(({ template }) => {
     };
     case 'delete': return {
       template: undefined,
+      signal: `Route.${resourceName}.Delete`,
       method: 'delete',
       path: '/:resourceId',
       provider: ({ controller, resourceId }) => {

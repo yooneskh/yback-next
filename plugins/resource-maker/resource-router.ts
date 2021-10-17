@@ -20,6 +20,7 @@ export class ResourceRouter<T, TF extends IResourceBase> {
 
 
   public addAction(action: IResourceAction<T, TF>) {
+    action.resourceName = this.name;
     this.actions.push(action);
   }
 
@@ -50,6 +51,7 @@ export class ResourceRouter<T, TF extends IResourceBase> {
 
       this.actionAugmentLooper.augment(action);
 
+      if (!action.signal) throw new Error('action does not have signal');
       if (!action.method) throw new Error('action does not have method');
       if (!action.path) throw new Error('action does not have path');
       if (!action.handler) throw new Error('action does not have handler');
@@ -66,7 +68,8 @@ export class ResourceRouter<T, TF extends IResourceBase> {
           payload: rev.body,
           params: rev.params,
           query: rev.query,
-          headers: Object.fromEntries([...rev.request.headers.entries()])
+          headers: Object.fromEntries([...rev.request.headers.entries()]),
+          setHeader: (header, value) => rev.response.header(header, value)
         };
 
         const context: IResourceActionContext<T, TF> = baseContext as unknown as IResourceActionContext<T, TF>;

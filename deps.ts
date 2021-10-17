@@ -33,3 +33,5 @@ export {
 export {
   ensureFile
 } from 'https://deno.land/std@0.110.0/fs/mod.ts';
+
+export * as RateLimiterFlexible from 'https://dev.jspm.io/rate-limiter-flexible@2.3.1';

@@ -3,13 +3,24 @@ import { NHttp } from '../deps.ts';
 const app = new NHttp();
 
 
+/* global plugins */
+
 import '../plugins/provider-router-addon/provider-router-addon.ts';
 import '../plugins/rest-templates-router-addon/rest-templates-router-addon.ts';
 import '../plugins/validators-router-addon/validators-router-addon.ts';
 
+import { setGlobalRateLimit } from '../plugins/rate-limiter/rate-limiter-router-addon.ts';
+
+setGlobalRateLimit({
+  points: 30,
+  windowDuration: 1,
+  blockDuration: 10
+});
 
 app.get('/ping', () => 'pong');
 
+
+/* global modules */
 
 import { UserRouter } from '../modules/users/users-router.ts';
 app.use('/api/users', UserRouter);
@@ -39,6 +50,8 @@ import '../modules/authorization/lib/authorization-router-addon.ts';
 import { MediaRouter } from '../modules/media/media-router.ts';
 app.use('/api/media', MediaRouter);
 
+
+/* extra */
 
 import { handleNHttpError } from '../plugins/error/handleable-error.ts';
 app.onError(handleNHttpError);

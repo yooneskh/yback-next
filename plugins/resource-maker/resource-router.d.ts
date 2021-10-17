@@ -4,7 +4,9 @@ import type { IResourceBase } from './resource-model.d.ts';
 
 
 export interface IResourceAction<T, TF extends IResourceBase> {
+  resourceName?: string;
   label?: string;
+  signal?: string;
   method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   path?: string;
   handler?: IResourceActionFunction<T, TF> | IResourceVersioned<IResourceActionFunction<T, TF>>;
@@ -24,6 +26,7 @@ export interface IResourceActionContext<T, TF extends IResourceBase> {
   params: Record<string, any>;
   query: Record<string, string>;
   headers: Record<string, string>;
+  setHeader: (header: string, value: string) => void
 }
 
 
