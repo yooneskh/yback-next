@@ -3,3 +3,6 @@ import './paytickets-model.ts';
 
 
 export const PayticketController = PayticketMaker.getController();
+
+
+PayticketMaker.addValidations({ });

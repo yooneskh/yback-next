@@ -4,6 +4,7 @@ import './users-model.ts';
 
 export const UserController = UserMaker.getController();
 
+
 UserMaker.addValidations({
   phoneNumber: [
     it => it.phoneNumber.startsWith('+98') || 'phoneNumber must start with +98',

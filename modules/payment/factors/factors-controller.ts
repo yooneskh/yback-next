@@ -3,3 +3,6 @@ import './factors-model.ts';
 
 
 export const FactorController = FactorMaker.getController();
+
+
+FactorMaker.addValidations({ });

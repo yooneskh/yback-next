@@ -3,3 +3,6 @@ import './verification-tokens-model.ts';
 
 
 export const VerificationTokenController = VerificationTokenMaker.getController();
+
+
+VerificationTokenMaker.addValidations({ });
