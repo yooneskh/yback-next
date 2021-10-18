@@ -38,7 +38,7 @@ export class ResourceRouter<T, TF extends IResourceBase> {
     this.postwares.push(ware);
   }
 
-  public addActionAumenter(augmenter: Augmentor< IResourceAction<T, TF> >) {
+  public addActionAugmenter(augmenter: Augmentor< IResourceAction<T, TF> >) {
     this.actionAugmentLooper.addAugmentor(augmenter);
   }
 

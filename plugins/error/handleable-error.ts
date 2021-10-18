@@ -8,8 +8,9 @@ export class HandleableError extends Error {
 
   public defaultMessage = '';
   public defaultResponseMessage = '';
+  public defaultData: Record<string, unknown> = {};
 
-  constructor(public message = '', public responseMessage = '', public headers: Record<string, string> = {}) {
+  constructor(public message = '', public responseMessage = '', public headers: Record<string, string> = {}, public data: Record<string, unknown> = {}) {
     super(message);
   }
 
@@ -34,7 +35,9 @@ export function handleNHttpError(error: Error, rev: RequestEvent) {
 
     rev.response.status(error.httpStatus).json({
       code: error.code,
-      message: error.responseMessage || error.defaultResponseMessage || error.message || error.defaultMessage
+      message: error.responseMessage || error.defaultResponseMessage || error.message || error.defaultMessage,
+      ...error.defaultData,
+      ...error.data
     });
 
   }

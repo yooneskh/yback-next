@@ -4,6 +4,7 @@ import { ResourceController } from './resource-controller.ts';
 import type { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import type { IResourceAction, IResourceWare } from './resource-router.d.ts';
 import { ResourceRouter } from './resource-router.ts';
+import { IResourceValidation, ResourceValidator } from './resource-validator.ts';
 
 
 export class ResourceMaker<T, TF extends IResourceBase> {
@@ -38,6 +39,7 @@ export class ResourceMaker<T, TF extends IResourceBase> {
 
 
   private controller?: ResourceController<T, TF>;
+  private validator?: ResourceValidator<T, TF>;
 
   public getController(): ResourceController<T, TF> {
     if (this.controller) {
@@ -48,8 +50,18 @@ export class ResourceMaker<T, TF extends IResourceBase> {
       throw new Error(`${this.name} properties are not set`)
     }
 
-    this.controller = new ResourceController<T, TF>(this.name, this.properties);
+    this.validator = new ResourceValidator<T, TF>(this.name, this.properties);
+    this.controller = new ResourceController<T, TF>(this.name, this.properties, this.validator);
     return this.controller;
+
+  }
+
+  public addValidations(validations: IResourceValidation<T, TF>) {
+    if (!this.validator) {
+      throw new Error(`${this.name} contoller has not been made to make validator`);
+    }
+
+    this.validator.addValidations(validations);
 
   }
 
@@ -106,15 +118,18 @@ export class ResourceMaker<T, TF extends IResourceBase> {
     this.router = new ResourceRouter<T, TF>(this.name, this.controller);
 
     for (const ware of ResourceMaker.globalPrewares) {
-      this.router.addPreware(ware);
+      // deno-lint-ignore no-explicit-any
+      this.router.addPreware(ware as any);
     }
 
     for (const ware of ResourceMaker.globalPostwares) {
-      this.router.addPostware(ware);
+      // deno-lint-ignore no-explicit-any
+      this.router.addPostware(ware as any);
     }
 
     for (const augmentor of ResourceMaker.globalActionAugmentors) {
-      this.router.addActionAumenter(augmentor);
+      // deno-lint-ignore no-explicit-any
+      this.router.addActionAugmenter(augmentor as any);
     }
 
     this.router.addActions(this.actions);

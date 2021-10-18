@@ -2,6 +2,7 @@ import type { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import type { IResourceControllerContext, IResourceControllerPopulates } from './resource-controller.d.ts';
 import { makeCollectionName, transformToQueryPopulates, Query, ObjectId } from '../../deps.ts';
 import { EventEmitter } from '../../services/event-emitter.ts';
+import { ResourceValidator } from "./resource-validator.ts";
 
 
 export class ResourceController<T, TF extends IResourceBase> {
@@ -9,7 +10,7 @@ export class ResourceController<T, TF extends IResourceBase> {
   private collectionName: string;
 
 
-  constructor(public name: string, public properties: IResourceProperties<T, TF>) {
+  constructor(public name: string, public properties: IResourceProperties<T, TF>, private validator: ResourceValidator<T, TF>) {
     this.collectionName = makeCollectionName(name);
   }
 
@@ -141,7 +142,7 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const query = new Query<TF>(this.collectionName);
 
-    // todo: document validation
+    await this.validator.validate(context.document);
 
     for (const key in this.properties) {
       if (key in context.document) {
@@ -166,8 +167,6 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const query = new Query<TF>(this.collectionName);
 
-    // todo: document validation
-
     try {
       query.where({ _id: new ObjectId(context.resourceId) });
     }
@@ -177,6 +176,14 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const oldDocument = await query.queryOne();
     if (!oldDocument) throw new Error(`${this.name}@${context.resourceId} was not found for update`);
+
+    const oldClone = JSON.parse(JSON.stringify(oldDocument));
+    for (const key in this.properties) {
+      if (key in context.payload) {
+        oldClone[key] = context.payload[key];
+      }
+    }
+    await this.validator.validate(oldClone);
 
     for (const key in this.properties) {
       if (key in context.payload) {
@@ -203,11 +210,18 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const query = new Query<TF>(this.collectionName);
 
-    // todo: document validation
-
     query.where(context.filters);
 
     const oldDocuments = await query.query();
+    for (const oldDocument of oldDocuments) {
+      const oldClone = JSON.parse(JSON.stringify(oldDocument));
+      for (const key in this.properties) {
+        if (key in context.payload) {
+          oldClone[key] = context.payload[key];
+        }
+      }
+      await this.validator.validate(oldClone);
+    }
 
     for (const key in this.properties) {
       if (key in context.payload) {
