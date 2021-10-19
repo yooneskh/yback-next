@@ -1,5 +1,6 @@
 import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import { HandleableError } from '../error/handleable-error.ts';
+import { validateDocument } from './resource-validator-util.ts';
 
 
 type IResourceValidationFunction<T, TF> = (it: T) => boolean | string | Promise<boolean | string>;
@@ -43,8 +44,28 @@ export class ResourceValidator<T, TF extends IResourceBase> {
         addValidation(it => typeof it[key] === 'object' && !Array.isArray(it[key]) && !!it[key] || (!(key in it) && !required) || errorMessage);
       }
       else if (property.type === 'series') {
-        addValidation(it => typeof it[key] === 'object' && Array.isArray(it[key]) && it[key].length > 0 || (!(key in it) && !required) || errorMessage);
-        // todo: validate inners with property.seriesSchema
+
+        addValidation(it => {
+          if (!(key in it) && !required) return true;
+
+          if (typeof it[key] !== 'object' || !Array.isArray(it[key])) {
+            return errorMessage;
+          }
+
+          return it[key].length > 0 || !required || errorMessage;
+
+        });
+
+        addValidation(it => {
+
+          for (const index in it[key] || []) {
+            validateDocument(it[key][index], property.seriesSchema!, `${key}.${index}`);
+          }
+
+          return true;
+
+        });
+
       }
 
     }
