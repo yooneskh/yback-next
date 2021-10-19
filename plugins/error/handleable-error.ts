@@ -24,10 +24,15 @@ export class NotFoundError extends HandleableError {
   public defaultResponseMessage = 'مورد خواسته شده یافت نشد.';
 }
 
+export class BypassRouteError extends HandleableError {
+  public code = 1002;
+}
+
 
 export function handleNHttpError(error: Error, rev: RequestEvent) {
 
   if (error instanceof HandleableError) {
+    if (error instanceof BypassRouteError) return;
 
     console.error(`Error :: ${error.message || error.defaultMessage}`);
 

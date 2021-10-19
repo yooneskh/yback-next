@@ -1,8 +1,8 @@
 import { ResourceMaker } from '../../../plugins/resource-maker/resource-maker.ts';
 import type { IResourceActionMultiFunction } from '../../../plugins/resource-maker/resource-router.d.ts';
-import { executeActionMultiFunction } from "../../../plugins/resource-maker/resource-util.ts";
+import { executeActionMultiFunction } from '../../../plugins/resource-maker/resource-util.ts';
 import type { IAuthorizationRole } from '../authorization-roles/authorization-roles-interfaces.d.ts';
-import { getAuthorizationInfoForUser, matchPermission } from "./authorization-helper.ts";
+import { getAuthorizationInfoForUser, matchPermission } from './authorization-helper.ts';
 
 
 declare module '../../../plugins/resource-maker/resource-router.d.ts' {

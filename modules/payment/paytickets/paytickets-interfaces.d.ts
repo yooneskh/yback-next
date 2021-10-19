@@ -4,7 +4,7 @@ import { IResourceBase } from '../../../plugins/resource-maker/resource-model.d.
 export interface IPayticketBase {
   factor: string;
   gateway: string;
-  amount: string;
+  amount: number;
   payUrl?: string;
   returnUrl?: string;
   resolved?: boolean;

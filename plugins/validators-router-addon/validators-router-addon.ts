@@ -1,6 +1,6 @@
 import { ResourceMaker } from '../../plugins/resource-maker/resource-maker.ts';
 import type { IResourceActionMultiFunction } from '../../plugins/resource-maker/resource-router.d.ts';
-import { executeActionMultiFunction } from "../resource-maker/resource-util.ts";
+import { executeActionMultiFunction } from '../resource-maker/resource-util.ts';
 
 
 declare module '../../plugins/resource-maker/resource-router.d.ts' {
@@ -10,6 +10,7 @@ declare module '../../plugins/resource-maker/resource-router.d.ts' {
   }
 }
 
+
 ResourceMaker.addGlobalActionAugmentor(action => {
   if (!action.stateValidators) {
     return {
@@ -18,6 +19,7 @@ ResourceMaker.addGlobalActionAugmentor(action => {
     };
   }
 });
+
 
 ResourceMaker.addGlobalPreware(async context => {
 

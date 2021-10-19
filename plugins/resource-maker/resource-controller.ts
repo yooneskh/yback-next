@@ -2,7 +2,7 @@ import type { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import type { IResourceControllerContext, IResourceControllerPopulates } from './resource-controller.d.ts';
 import { makeCollectionName, transformToQueryPopulates, Query, ObjectId } from '../../deps.ts';
 import { EventEmitter } from '../../services/event-emitter.ts';
-import { ResourceValidator } from "./resource-validator.ts";
+import { ResourceValidator } from './resource-validator.ts';
 
 
 export class ResourceController<T, TF extends IResourceBase> {

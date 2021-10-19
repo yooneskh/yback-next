@@ -22,6 +22,32 @@ export const Config = {
   },
   authorization: {
     defaultPermissions: ['user.*']
+  },
+  payment: {
+    default: {
+      locale: 'en' as 'en' | 'fa',
+      favicon: '{{website-base}}/favicon.ico',
+      font: 'https://cdn.khoshghadam.com/font/roboto/roboto.css',
+      title: 'Application | Payment Result',
+      callback: '{{website-base}}',
+      supportCallback: '{{website-base}}'
+    },
+    en: {
+      locale: 'en' as 'en' | 'fa',
+      favicon: '{{website-base}}/favicon.ico',
+      font: 'https://cdn.khoshghadam.com/font/roboto/roboto.css',
+      title: 'Application | Payment Result',
+      callback: '{{website-base}}',
+      supportCallback: '{{website-base}}'
+    },
+    fa: {
+      locale: 'en' as 'en' | 'fa',
+      favicon: '{{website-base}}/favicon.ico',
+      font: 'https://cdn.khoshghadam.com/font/iryekan/iryekan.css',
+      title: 'اپلیکیشن | نتیجه پرداخت',
+      callback: '{{website-base}}',
+      supportCallback: '{{website-base}}'
+    }
   }
 };
 
