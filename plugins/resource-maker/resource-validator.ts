@@ -1,6 +1,6 @@
 import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import { HandleableError } from '../error/handleable-error.ts';
-import { validateDocument } from './resource-validator-util.ts';
+import { validateElement } from './resource-validator-util.ts';
 
 
 type IResourceValidationFunction<T, TF> = (it: T) => boolean | string | Promise<boolean | string>;
@@ -25,48 +25,15 @@ export class ResourceValidator<T, TF extends IResourceBase> {
     for (const key in this.properties) {
       const property = this.properties[key];
 
-      // deno-lint-ignore no-explicit-any
-      const addValidation = (vf: (it: any) => boolean | string | Promise<boolean | string>) => this.addValidations({ [key as any]: [vf] });
-
-      const required = property.required;
-      const errorMessage = required ? `${property.title || key} is requried.` : `${property.title || key} is not ${property.type}`;
-
-      if (property.type === 'boolean') {
-        addValidation(it => it[key] === false || it[key] === true || (!(key in it) && !required) || errorMessage);
-      }
-      else if (property.type === 'number') {
-        addValidation(it => it[key] >= 0 || it[key] <= 0 || (!(key in it) && !required) || errorMessage);
-      }
-      else if (property.type === 'string') {
-        addValidation(it => typeof it[key] === 'string' && it[key] !== '' || (!(key in it) && !required) || (!required && it[key] === '') || errorMessage);
-      }
-      else if (property.type === 'object') {
-        addValidation(it => typeof it[key] === 'object' && !Array.isArray(it[key]) && !!it[key] || (!(key in it) && !required) || errorMessage);
-      }
-      else if (property.type === 'series') {
-
-        addValidation(it => {
-          if (!(key in it) && !required) return true;
-
-          if (typeof it[key] !== 'object' || !Array.isArray(it[key])) {
-            return errorMessage;
+      this.addValidations({
+        // deno-lint-ignore no-explicit-any
+        [key as any]: [
+          (it: T) => {
+            validateElement(it[key], property, key);
+            return true;
           }
-
-          return it[key].length > 0 || !required || errorMessage;
-
-        });
-
-        addValidation(it => {
-
-          for (const index in it[key] || []) {
-            validateDocument(it[key][index], property.seriesSchema!, `${key}.${index}`);
-          }
-
-          return true;
-
-        });
-
-      }
+        ]
+      });
 
     }
   }
@@ -95,17 +62,28 @@ export class ResourceValidator<T, TF extends IResourceBase> {
 
     for (const property in this.validations) {
       for (const validator of this.validations[property]! || []) {
+        try {
 
-        const validationResult = await validator(frozenDocument);
-        if (validationResult !== false && typeof validationResult !== 'string') continue;
+          const validationResult = await validator(frozenDocument);
+          if (validationResult !== false && typeof validationResult !== 'string') continue;
 
-        errors.push({
-          property,
-          error: typeof validationResult === 'string' ? validationResult : `${property} is incorrect`
-        });
+          errors.push({
+            property,
+            error: typeof validationResult === 'string' ? validationResult : `${property} is incorrect`
+          });
+          break;
 
-        break;
+        }
+        catch (error: unknown) {
 
+          errors.push({
+            property,
+            // deno-lint-ignore no-explicit-any
+            error: (error as any).responseMessage || (error as any).message || String(error)
+          });
+          break;
+
+        }
       }
     }
 
