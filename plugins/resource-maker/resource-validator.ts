@@ -1,11 +1,12 @@
 import { IResourceBase, IResourceProperties } from './resource-model.d.ts';
 import { HandleableError } from '../error/handleable-error.ts';
 import { validateElement } from './resource-validator-util.ts';
+import { ResourceController } from './resource-controller.ts';
 
 
-type IResourceValidationFunction<T, TF> = (it: T) => boolean | string | Promise<boolean | string>;
+type IResourceValidationFunction<T, TF extends IResourceBase> = (it: T, controller?: ResourceController<T, TF>) => boolean | string | Promise<boolean | string>;
 
-export type IResourceValidation<T, TF> = {
+export type IResourceValidation<T, TF extends IResourceBase> = {
   [property in keyof T]?: IResourceValidationFunction<T, TF>[];
 }
 
@@ -17,7 +18,7 @@ export class ResourceValidationError extends HandleableError {
 
 export class ResourceValidator<T, TF extends IResourceBase> {
 
-  constructor(private name: string, private properties: IResourceProperties<T, TF>) {
+  constructor(private name: string, private properties: IResourceProperties<T, TF>, private controller?: ResourceController<T, TF>) {
     this.initializeWithProperties();
   }
 
@@ -36,6 +37,10 @@ export class ResourceValidator<T, TF extends IResourceBase> {
       });
 
     }
+  }
+
+  public setController(controller: ResourceController<T, TF>) {
+    this.controller = controller;
   }
 
 
@@ -64,7 +69,7 @@ export class ResourceValidator<T, TF extends IResourceBase> {
       for (const validator of this.validations[property]! || []) {
         try {
 
-          const validationResult = await validator(frozenDocument);
+          const validationResult = await validator(frozenDocument, this.controller);
           if (validationResult !== false && typeof validationResult !== 'string') continue;
 
           errors.push({

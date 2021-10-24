@@ -52,6 +52,8 @@ export class ResourceMaker<T, TF extends IResourceBase> {
 
     this.validator = new ResourceValidator<T, TF>(this.name, this.properties);
     this.controller = new ResourceController<T, TF>(this.name, this.properties, this.validator);
+
+    this.validator.setController(this.controller);
     return this.controller;
 
   }

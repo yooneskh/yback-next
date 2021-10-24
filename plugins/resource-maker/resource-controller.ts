@@ -8,10 +8,16 @@ import { ResourceValidator } from './resource-validator.ts';
 export class ResourceController<T, TF extends IResourceBase> {
 
   private collectionName: string;
+  private validator: ResourceValidator<T, TF> | undefined;
 
 
-  constructor(public name: string, public properties: IResourceProperties<T, TF>, private validator: ResourceValidator<T, TF>) {
+  constructor(public name: string, public properties: IResourceProperties<T, TF>, validator?: ResourceValidator<T, TF>) {
     this.collectionName = makeCollectionName(name);
+    this.validator = validator;
+  }
+
+  public setValidator(validator: ResourceValidator<T, TF>) {
+    this.validator = validator;
   }
 
 
@@ -142,7 +148,9 @@ export class ResourceController<T, TF extends IResourceBase> {
 
     const query = new Query<TF>(this.collectionName);
 
-    await this.validator.validate(context.document);
+    if (this.validator) {
+      await this.validator.validate(context.document);
+    }
 
     for (const key in this.properties) {
       if (key in context.document) {
@@ -177,13 +185,19 @@ export class ResourceController<T, TF extends IResourceBase> {
     const oldDocument = await query.queryOne();
     if (!oldDocument) throw new Error(`${this.name}@${context.resourceId} was not found for update`);
 
-    const oldClone = JSON.parse(JSON.stringify(oldDocument));
-    for (const key in this.properties) {
-      if (key in context.payload) {
-        oldClone[key] = context.payload[key];
+    if (this.validator) {
+
+      const oldClone = JSON.parse(JSON.stringify(oldDocument));
+
+      for (const key in this.properties) {
+        if (key in context.payload) {
+          oldClone[key] = context.payload[key];
+        }
       }
+
+      await this.validator.validate(oldClone);
+
     }
-    await this.validator.validate(oldClone);
 
     for (const key in this.properties) {
       if (key in context.payload) {
@@ -213,14 +227,23 @@ export class ResourceController<T, TF extends IResourceBase> {
     query.where(context.filters);
 
     const oldDocuments = await query.query();
-    for (const oldDocument of oldDocuments) {
-      const oldClone = JSON.parse(JSON.stringify(oldDocument));
-      for (const key in this.properties) {
-        if (key in context.payload) {
-          oldClone[key] = context.payload[key];
+
+    if (this.validator) {
+
+      for (const oldDocument of oldDocuments) {
+
+        const oldClone = JSON.parse(JSON.stringify(oldDocument));
+
+        for (const key in this.properties) {
+          if (key in context.payload) {
+            oldClone[key] = context.payload[key];
+          }
         }
+
+        await this.validator.validate(oldClone);
+
       }
-      await this.validator.validate(oldClone);
+
     }
 
     for (const key in this.properties) {
