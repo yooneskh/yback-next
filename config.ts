@@ -20,6 +20,9 @@ export const Config = {
     randomDigitsCount: 4,
     tokenLifetime: 1000 * 60 * 60 * 24 * 30
   },
+  captcha: {
+    lifetime: 1000 * 60 * 3
+  },
   authorization: {
     defaultPermissions: ['user.*']
   },

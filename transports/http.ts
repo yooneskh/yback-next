@@ -17,6 +17,11 @@ setGlobalRateLimit({
   blockDuration: 10
 });
 
+import { CaptchaTokenRouter } from '../plugins/svg-captcha/captcha-tokens/captcha-tokens-router.ts';
+app.use('/api/captcha-tokens', CaptchaTokenRouter);
+
+import '../plugins/svg-captcha/captcha-router-addon.ts';
+
 app.get('/ping', () => 'pong');
 
 

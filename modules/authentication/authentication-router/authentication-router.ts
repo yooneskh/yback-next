@@ -45,6 +45,15 @@ AuthenticationRouterMaker.addActions({
   'login': {
     method: 'post',
     path: '/login',
+    signal: 'Route.Authentication.Login',
+    rateLimit: {
+      points: 3,
+      windowDuration: 60,
+      blockDuration: 60
+    },
+    captcha: {
+      enabled: true
+    },
     provider: (context) => {
 
       const { provider } = context.payload;
@@ -59,6 +68,15 @@ AuthenticationRouterMaker.addActions({
   'register': {
     method: 'post',
     path: '/register',
+    signal: 'Route.Authentication.Register',
+    rateLimit: {
+      points: 3,
+      windowDuration: 60,
+      blockDuration: 60
+    },
+    captcha: {
+      enabled: true
+    },
     provider: (context) => {
 
       const { provider } = context.payload;
@@ -73,6 +91,12 @@ AuthenticationRouterMaker.addActions({
   'verify': {
     method: 'post',
     path: '/verify',
+    signal: 'Route.Authentication.Verify',
+    rateLimit: {
+      points: 3,
+      windowDuration: 60,
+      blockDuration: 60
+    },
     provider: async (context) => {
 
       const { provider } = context.payload;
@@ -81,7 +105,6 @@ AuthenticationRouterMaker.addActions({
       if (!providerAgent) throw new Error('this provider is not supported');
 
       const user = await providerAgent.verify(context);
-
       const token = await makeFreshToken();
 
       const authenticationToken = await AuthenticationTokenController.create({
@@ -100,6 +123,7 @@ AuthenticationRouterMaker.addActions({
   'identity': {
     method: 'get',
     path: '/identity',
+    signal: 'Route.Authentication.Identity',
     requiresAuthentication: true,
     provider: async ({ user, userPermissions, userRoles }) => {
 
@@ -115,9 +139,10 @@ AuthenticationRouterMaker.addActions({
 
     }
   },
-  'changeIdentity': {
+  'change-identity': {
     method: 'patch',
     path: '/identity',
+    signal: 'Route.Authentication.ChangeIdentity',
     requiresAuthentication: true,
     provider: ({ user, payload }) => {
       return UserController.update({
@@ -129,6 +154,7 @@ AuthenticationRouterMaker.addActions({
   'logout': {
     method: 'post',
     path: '/logout',
+    signal: 'Route.Authentication.Logout',
     requiresAuthentication: true,
     provider: async ({ token }) => {
 
