@@ -60,6 +60,10 @@ import { FactorRouter } from '../modules/payment/factors/factors-router.ts';
 app.use('/api/factors', FactorRouter);
 
 
+import { ApplicationSettingRouter } from '../modules/application-settings/application-settings-router.ts';
+app.use('/api/application-settings', ApplicationSettingRouter);
+
+
 /* extra */
 
 import { handleNHttpError } from '../plugins/error/handleable-error.ts';

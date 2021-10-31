@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { registerPopulateItem } from '../../deps.ts';
 import { Augmentor } from '../augment-looper/augment-looper.ts';
 import { ResourceController } from './resource-controller.ts';
@@ -68,26 +69,37 @@ export class ResourceMaker<T, TF extends IResourceBase> {
   }
 
 
-  // deno-lint-ignore no-explicit-any
   private static globalPrewares: IResourceWare<any, any>[] = [];
-  // deno-lint-ignore no-explicit-any
   private static globalPostwares: IResourceWare<any, any>[] = [];
-  // deno-lint-ignore no-explicit-any
   private static globalActionAugmentors: Augmentor< IResourceAction<any, any> >[] = [];
 
   public static addGlobalPreware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
-    // deno-lint-ignore no-explicit-any
     this.globalPrewares.push(ware as unknown as any);
   }
 
   public static addGlobalPostware<T, TF extends IResourceBase>(ware: IResourceWare<T, TF>) {
-    // deno-lint-ignore no-explicit-any
     this.globalPostwares.push(ware as unknown as any);
   }
 
   public static addGlobalActionAugmentor<T, TF extends IResourceBase>(augmentor: Augmentor< IResourceAction<T, TF> >) {
-    // deno-lint-ignore no-explicit-any
     this.globalActionAugmentors.push(augmentor as unknown as any);
+  }
+
+
+  private prewares: IResourceWare<T, TF>[] = [];
+  private postwares: IResourceWare<T, TF>[] = [];
+  private actionAugmentors: Augmentor< IResourceAction<T, TF> >[] = [];
+
+  public addPreware(ware: IResourceWare<T, TF>) {
+    this.prewares.push(ware);
+  }
+
+  public addPostware(ware: IResourceWare<T, TF>) {
+    this.postwares.push(ware);
+  }
+
+  public addActionAugmentor(augmentor: Augmentor< IResourceAction<T, TF> >) {
+    this.actionAugmentors.push(augmentor);
   }
 
   private router?: ResourceRouter<T, TF>;
@@ -119,20 +131,13 @@ export class ResourceMaker<T, TF extends IResourceBase> {
 
     this.router = new ResourceRouter<T, TF>(this.name, this.controller);
 
-    for (const ware of ResourceMaker.globalPrewares) {
-      // deno-lint-ignore no-explicit-any
-      this.router.addPreware(ware as any);
-    }
+    for (const ware of ResourceMaker.globalPrewares) this.router.addPreware(ware as any);
+    for (const ware of ResourceMaker.globalPostwares) this.router.addPostware(ware as any);
+    for (const augmentor of ResourceMaker.globalActionAugmentors) this.router.addActionAugmenter(augmentor as any);
 
-    for (const ware of ResourceMaker.globalPostwares) {
-      // deno-lint-ignore no-explicit-any
-      this.router.addPostware(ware as any);
-    }
-
-    for (const augmentor of ResourceMaker.globalActionAugmentors) {
-      // deno-lint-ignore no-explicit-any
-      this.router.addActionAugmenter(augmentor as any);
-    }
+    for (const ware of this.prewares) this.router.addPreware(ware);
+    for (const ware of this.postwares) this.router.addPostware(ware);
+    for (const augmentor of this.actionAugmentors) this.router.addActionAugmenter(augmentor);
 
     this.router.addActions(this.actions);
 
