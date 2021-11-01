@@ -1,3 +1,5 @@
+import { smartAugment } from '../smart-augmentor/smart-augmentor.ts';
+
 
 export type Augmentor<T> = (object: T) => Partial<T> | void;
 
@@ -26,7 +28,8 @@ export class AugmentLooper<T> {
         const augment = augmentor(object);
         if (!augment) continue;
 
-        Object.assign(object, augment);
+        smartAugment(object as Record<string, unknown>, augment);
+
         augmentCount++;
         hadAugment = true;
 
