@@ -3,6 +3,7 @@ import { Config } from '../../../config.ts';
 import { UserController } from '../../users/users-controller.ts';
 import { VerificationTokenController } from '../verification-tokens/verification-tokens-controller.ts';
 import { RegisterTokenController } from '../register-tokens/register-tokens-controller.ts';
+import { NotFoundError } from "../../../plugins/error/handleable-error.ts";
 
 
 function makeRandomDigits(digits: number): string {
@@ -31,7 +32,7 @@ registerProvider({
     });
 
     if (!user) {
-      throw new Error(`user with this phoneNumber ${phoneNumber} was not found`);
+      throw new NotFoundError(`user with this phoneNumber ${phoneNumber} was not found`);
     }
 
     const verificationToken = await VerificationTokenController.create({

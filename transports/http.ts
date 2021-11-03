@@ -5,9 +5,28 @@ const app = new NHttp();
 
 /* global plugins */
 
+app.get('/ping', () => 'pong');
+
+app.use((revt, next) => {
+
+  revt.response.header('Access-Control-Allow-Origin', '*');
+  revt.response.header('Access-Control-Allow-Headers', '*');
+  revt.response.header('Access-Control-Allow-Methods', '*');
+
+  if (revt.request.method === 'OPTIONS') {
+    return revt.response.status(200).send('OK');
+  }
+  else {
+    return next();
+  }
+
+});
+
+
 import '../plugins/provider-router-addon/provider-router-addon.ts';
 import '../plugins/rest-templates-router-addon/rest-templates-router-addon.ts';
 import '../plugins/validators-router-addon/validators-router-addon.ts';
+
 
 import { setGlobalRateLimit } from '../plugins/rate-limiter/rate-limiter-router-addon.ts';
 
@@ -17,12 +36,11 @@ setGlobalRateLimit({
   blockDuration: 10
 });
 
+
 import { CaptchaTokenRouter } from '../plugins/svg-captcha/captcha-tokens/captcha-tokens-router.ts';
 app.use('/api/captcha-tokens', CaptchaTokenRouter);
 
 import '../plugins/svg-captcha/captcha-router-addon.ts';
-
-app.get('/ping', () => 'pong');
 
 
 /* global modules */

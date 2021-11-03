@@ -61,7 +61,7 @@ ResourceMaker.addGlobalPreware(async context => {
       }
     });
 
-    throw new Error('wrong captcha text');
+    throw new Error(`wrong captcha text was ${captcha.text} gave ${captchaText}`);
 
   }
 
