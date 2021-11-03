@@ -3,6 +3,7 @@ import { IResourceBase, IResourceProperties } from '../resource-maker/resource-m
 import { IResourceAction } from '../resource-maker/resource-router.d.ts';
 import { IResourceValidation } from '../resource-maker/resource-validator.ts';
 import { SettingResourceController } from './setting-resource-controller.ts';
+import type {} from './setting-resource-router.d.ts';
 
 
 export class SettingResourceMaker<T, TF extends IResourceBase> {

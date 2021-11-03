@@ -5,7 +5,8 @@ export const Config = {
     enabled: true,
     host: '127.0.0.1',
     port: 27017,
-    name: 'yback'
+    name: 'yback',
+    connectionString: ''
   },
   http: {
     enabled: true,

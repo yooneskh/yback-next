@@ -26,6 +26,7 @@ MediaMaker.addActions({
   'upload': {
     method: 'post',
     path: '/upload',
+    signal: 'Route.Media.Upload',
     provider: async ({ requestEvent, controller, user }) => {
 
       const file = requestEvent.body.file as File;

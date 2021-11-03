@@ -11,7 +11,7 @@ export function smartAugment(source: GObject, target: GObject) {
     }
 
     if (typeof source[key] !== 'object') {
-      source[key] === target[key];
+      source[key] = target[key];
       continue;
     }
 

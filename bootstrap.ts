@@ -7,11 +7,11 @@ async function bootstrapDatabase() {
 
   const { connect } = await import('./deps.ts');
 
-  if (!Config.database.host || !Config.database.port || !Config.database.name) {
+  if (!( Config.database.connectionString || (Config.database.host && Config.database.port && Config.database.name) )) {
     throw new Error('database connection information is insufficient');
   }
 
-  const connectionString = `mongo://${Config.database.host}:${Config.database.port}/${Config.database.name}`;
+  const connectionString = Config.database.connectionString || `mongo://${Config.database.host}:${Config.database.port}/${Config.database.name}`;
   await connect(connectionString);
 
 }
