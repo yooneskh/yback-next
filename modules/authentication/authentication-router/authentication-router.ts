@@ -15,11 +15,10 @@ export function registerProvider(provider: IAuthProvider) {
 
 async function makeFreshToken() {
 
-  let found = false;
   let token = '';
   let iteration = 0;
 
-  while (!found) {
+  while (true) {
 
     iteration++;
     if (iteration > 2000) {
@@ -30,7 +29,9 @@ async function makeFreshToken() {
     crypto.getRandomValues(intArray);
     token = [...intArray].map(it => it.toString(16)).join('');
 
-    found = (await AuthenticationTokenController.count({ filters: { token, valid: true } })) > 0;
+    if (await AuthenticationTokenController.count({ filters: { token, valid: true } }) === 0) {
+      break;
+    }
 
   }
 

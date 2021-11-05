@@ -17,7 +17,7 @@ export const Config = {
     baseUrl: 'http://localhost:48500'
   },
   authentication: {
-    staticVerificationCode: '',
+    staticVerificationCode: '1111',
     randomDigitsCount: 4,
     tokenLifetime: 1000 * 60 * 60 * 24 * 30
   },

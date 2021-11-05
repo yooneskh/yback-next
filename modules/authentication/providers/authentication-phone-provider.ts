@@ -93,7 +93,7 @@ registerProvider({
     });
 
     if (verificationTokenDocument.used) {
-      throw new Error('thsi verification token has been used before');
+      throw new Error('this verification token has been used before');
     }
 
     if (verificationTokenDocument.code !== verificationCode) {
