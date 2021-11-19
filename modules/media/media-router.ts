@@ -49,8 +49,8 @@ MediaMaker.addActions({
           extension,
           size,
           type,
-          relativePath: '',
-          path: ''
+          relativePath: '--uploading--',
+          path: '--uploading--'
         }
       });
 
