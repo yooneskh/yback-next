@@ -131,6 +131,7 @@ export class ResourceMaker<T, TF extends IResourceBase> {
 
     this.router = new ResourceRouter<T, TF>(this.name, this.controller);
 
+
     for (const ware of ResourceMaker.globalPrewares) this.router.addPreware(ware as any);
     for (const ware of ResourceMaker.globalPostwares) this.router.addPostware(ware as any);
     for (const augmentor of ResourceMaker.globalActionAugmentors) this.router.addActionAugmenter(augmentor as any);
@@ -139,8 +140,45 @@ export class ResourceMaker<T, TF extends IResourceBase> {
     for (const ware of this.postwares) this.router.addPostware(ware);
     for (const augmentor of this.actionAugmentors) this.router.addActionAugmenter(augmentor);
 
-    this.router.addActions(this.actions);
 
+    const metaObject = Object.keys(this.properties ?? {}).map(key => ({ key, ...this.properties![key as keyof T] }));
+
+    this.addAction({
+      method: 'get',
+      path: '/meta',
+      signal: `Route.${this.name}.Meta`,
+      provider: () => {
+        return metaObject;
+      }
+    });
+
+
+    this.addAction({
+      method: 'get',
+      path: '/validate',
+      signal: `Route.${this.name}.HasValidate`,
+      provider: () => {
+        return !!this.validator;
+      }
+    });
+
+    this.addAction({
+      method: 'post',
+      path: '/validate',
+      signal: `Route.${this.name}.Validate`,
+      provider: async ({ payload }) => {
+        if (!this.validator) {
+          throw new Error(`no validator registered for ${this.name}`);
+        }
+
+        await this.validator.validate(payload);
+        return true;
+
+      }
+    });
+
+
+    this.router.addActions(this.actions);
     return this.router.getRouter();
 
   }
