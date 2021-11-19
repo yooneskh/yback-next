@@ -3,7 +3,20 @@ import { IResourceProperties, IResourceProperty } from './resource-model.d.ts';
 
 // deno-lint-ignore no-explicit-any
 export function validateElement<T, TF>(element: any, property: IResourceProperty, keyPath: string) {
-  if (property.array) {
+  if (property.locales) {
+
+    if (!( typeof element === 'object' && !Array.isArray(element) && !!element || (element === undefined && !property.required) )) {
+      throw new Error(`${keyPath} is not localed object`);
+    }
+
+    if (element) {
+      for (const locale in property.locales) {
+        validateElement(element[locale], { ...property, ...property.locales[locale], locales: undefined }, `${keyPath}.${locale}`);
+      }
+    }
+
+  }
+  else if (property.array) {
 
     if (!( typeof element === 'object' && Array.isArray(element) && !!element || (element === undefined && !property.required) )) {
       throw new Error(`${keyPath} is not boolean`);

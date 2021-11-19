@@ -21,15 +21,17 @@ export interface IResourceProperty {
   seriesLoopTo?: string;
   seriesBase?: Record<string, unknown>;
   seriesSchema?: IResourceProperties<any, any>;
-  /* extra */
-  hideInTable?: boolean;
-  hidden?: boolean;
+  /* locales */
+  locales?: Record<string, IResourceProperty>;
   /* meta */
   title?: string;
   titleable?: boolean;
   items?: string[] | { value: string, text: string }[];
   itemValue?: string;
   itemText?: string;
+  dir?: string;
+  hideInTable?: boolean;
+  hidden?: boolean;
 }
 
 export type IResourceProperties<T, TF> = {

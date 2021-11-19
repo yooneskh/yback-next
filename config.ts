@@ -16,13 +16,13 @@ export const Config = {
     directory: 'media',
     baseUrl: 'http://localhost:48500'
   },
-  authentication: {
-    staticVerificationCode: '1111',
-    randomDigitsCount: 4,
-    tokenLifetime: 1000 * 60 * 60 * 24 * 30
-  },
   captcha: {
     lifetime: 1000 * 60 * 3
+  },
+  authentication: {
+    staticVerificationCode: '111111',
+    randomDigitsCount: 6,
+    tokenLifetime: 1000 * 60 * 60 * 24 * 30
   },
   authorization: {
     defaultPermissions: ['user.*']
